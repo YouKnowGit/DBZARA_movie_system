@@ -51,7 +51,6 @@ const Btn = styled(Button)`
     position: relative;
     font-size: 10px;
     color: RGB(254, 249, 220);
-
     background-color: #00b09b;
   }
 `;
