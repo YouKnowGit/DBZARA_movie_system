@@ -13,7 +13,6 @@ class User(AbstractUser):
     GENDER_CHOICES = [
         ('M', '남성'),
         ('F', '여성'),
-        ('N', '미정')
     ]
     PLATFORM_CHOICES = [
         (1, 'Django'),
