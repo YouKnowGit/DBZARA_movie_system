@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import MoviePoster from "Components/MoviePoster";
 import { dbzaraApi } from "jaehunApi";
-import {socialAPI} from "../junsu-api";
+import { socialAPI } from "../junsu-api";
 import { Link } from "react-router-dom";
 import MovieVideo from "Components/MovieVideo";
 import EventPoster from "Components/EventPoster";
@@ -15,9 +15,7 @@ import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import TheatersIcon from "@material-ui/icons/Theaters";
 import Carousel from "react-material-ui-carousel";
 
-
-import CircularProgress from '@material-ui/core/CircularProgress';
-
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 // TODO styled-component 컴포넌트화 만들기
 // TODO CSS 추가 항목들
@@ -129,17 +127,17 @@ const Home = () => {
     loading: true,
   });
 
-    let [notOpenMovies, setNotOpenMovies] = useState({
-        notOpen: null,
-        error: null,
-        loading: true,
-    });
+  let [notOpenMovies, setNotOpenMovies] = useState({
+    notOpen: null,
+    error: null,
+    loading: true,
+  });
 
   let [event, setEvent] = useState({
-      results:null,
-      error: null,
-      loading: true
-  })
+    results: null,
+    error: null,
+    loading: true,
+  });
 
   // API 연결
   async function feactApi() {
@@ -155,19 +153,19 @@ const Home = () => {
       } = await dbzaraApi.notOpen();
       setNotOpenMovies((movies) => ({ ...movies, notOpen }));
       const {
-          data: {results: reviews}
+        data: { results: reviews },
       } = await dbzaraApi.review();
       setReviewMovies((prevState) => ({
-          ...prevState,
-          reviews
-      }))
+        ...prevState,
+        reviews,
+      }));
       const {
-          data: {results: event}
+        data: { results: event },
       } = await socialAPI.event();
       setEvent((prevState) => ({
-          ...prevState,
-          results: event
-      }))
+        ...prevState,
+        results: event,
+      }));
     } catch {
       setMovies((movies) => ({
         ...movies,
@@ -245,100 +243,109 @@ const Home = () => {
   const [focusIdx, setFocusIdx] = useState(0);
 
   // console.log(movies)
-  return (
-    movies.loading ? (<div style={{ minHeight: "82vh" }}><CircularProgress style={{
-      position: "absolute", top: "36%", left: "50%", margin: "-150px 0 0 - 150px"
-    }} /></div>) : (
-        <HomePage>
-          {/* {console.log(window.scrollY)} */}
-          {/* 메인 poster */}
-          <Carousel>
-            <MainPoster movies={movies.boxOffice} />
-          </Carousel>
+  return movies.loading ? (
+    <div style={{ minHeight: "82vh" }}>
+      <CircularProgress
+        style={{
+          position: "absolute",
+          top: "36%",
+          left: "50%",
+          margin: "-150px 0 0 - 150px",
+        }}
+      />
+    </div>
+  ) : (
+    <HomePage>
+      {/* {console.log(window.scrollY)} */}
+      {/* 메인 poster */}
+      <Carousel>
+        <MainPoster movies={movies.boxOffice} />
+      </Carousel>
 
-          {/* 랭킹 */}
-          <Ranking>
-            <RankingMenu>
-              <RankingMenubgImg>{onNav.navList}</RankingMenubgImg>
-              {/* //TODO component로 변경하기 */}
-              <Rankingli
-                onClick={() => navChange(movies.boxOffice, 0)}
-                current="RANKING"
-                state={onNav.navList}
-              >
-                예매순위
+      {/* 랭킹 */}
+      <Ranking>
+        <RankingMenu>
+          <RankingMenubgImg>{onNav.navList}</RankingMenubgImg>
+          {/* //TODO component로 변경하기 */}
+          <Rankingli
+            onClick={() => navChange(movies.boxOffice, 0)}
+            current="RANKING"
+            state={onNav.navList}
+          >
+            예매순위
           </Rankingli>
-              <Rankingli
-                onClick={() => navChange(reviewMovies.reviews, 1)}
-                current="REVIEW"
-                state={onNav.navList}
-              >
-                평점순위
+          <Rankingli
+            onClick={() => navChange(reviewMovies.reviews, 1)}
+            current="REVIEW"
+            state={onNav.navList}
+          >
+            평점순위
           </Rankingli>
-              <Rankingli
-                onClick={() => navChange(notOpenMovies.notOpen, 2)}
-                current="COMING"
-                state={onNav.navList}
-              >
-                개봉예정작
+          <Rankingli
+            onClick={() => navChange(notOpenMovies.notOpen, 2)}
+            current="COMING"
+            state={onNav.navList}
+          >
+            개봉예정작
           </Rankingli>
-            </RankingMenu>
-            <RankingLeft />
-            <RankingRight />
-            {onNav.data ? (
-              <RankingContainer>
-                {/* <Carousel> */}
-                <RankingPosterUl current={focusIdx}>
-                  {/* {console.log("end", focusIdx)} */}
-                  {[1, 2, 3].map(() =>
-                    onNav.data.slice(0, 10).map((movies, index) => {
-                      return (
-                        <RankingPoster>
-                          <MoviePoster
-                            key={movies.id}
-                            id={movies.id}
-                            bgUrl={movies.poster}
-                            index={index + 1}
-                          />
-                          <MovieInfo>
-                            <MovieName>{movies.name}</MovieName>
-                            <MovieVote>
-                              {onNav.navList === "RANKING"
-                                ? `${movies.reservation_rate}%`
-                                : onNav.navList === "REVIEW"
-                                    ? `${movies.review_rate}점` : `D-${parseInt(movies.opening_count)}`}
-                            </MovieVote>
-                          </MovieInfo>
-                        </RankingPoster>
-                      );
-                    })
-                  )}
-                </RankingPosterUl>
-                {/* </Carousel> */}
-                <PrevBtn onClick={() => prevSlide()}>◀</PrevBtn>
-                <NextBtn onClick={() => nextSlide()}>▶</NextBtn>
-              </RankingContainer>
-            ) : (
-                //loading화면
-                <RankingContainer>
-                  <RankingPosterUl>
-                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => (
-                      <RankingPoster>
-                        <MoviePoster />
-                      </RankingPoster>
-                    ))}
-                  </RankingPosterUl>
-                </RankingContainer>
+        </RankingMenu>
+        <RankingLeft />
+        <RankingRight />
+        {onNav.data ? (
+          <RankingContainer>
+            {/* <Carousel> */}
+            <RankingPosterUl current={focusIdx}>
+              {/* {console.log("end", focusIdx)} */}
+              {[1, 2, 3].map(() =>
+                onNav.data.slice(0, 10).map((movies, index) => {
+                  return (
+                    <RankingPoster>
+                      <MoviePoster
+                        key={movies.id}
+                        id={movies.id}
+                        bgUrl={movies.poster}
+                        index={index + 1}
+                      />
+                      <MovieInfo>
+                        <MovieName>{movies.name}</MovieName>
+                        <MovieVote>
+                          {onNav.navList === "RANKING"
+                            ? `${movies.reservation_rate}%`
+                            : onNav.navList === "REVIEW"
+                            ? `${movies.review_rate}점`
+                            : `D-${parseInt(movies.opening_count)}`}
+                        </MovieVote>
+                      </MovieInfo>
+                    </RankingPoster>
+                  );
+                })
               )}
-          </Ranking>
-          {/* 베스트다운로드 */}
-          <BestPlay>
-            <BestMainname>
-              <BestMainTilteP>Best Preview</BestMainTilteP>
-            </BestMainname>
-            <BestMainBox>
-              <BestMainContainer>
-                {/* {movies.boxOffice ? (
+            </RankingPosterUl>
+            {/* </Carousel> */}
+            <PrevBtn onClick={() => prevSlide()}>◀</PrevBtn>
+            <NextBtn onClick={() => nextSlide()}>▶</NextBtn>
+          </RankingContainer>
+        ) : (
+          //loading화면
+          <RankingContainer>
+            <RankingPosterUl>
+              {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => (
+                <RankingPoster>
+                  <MoviePoster />
+                </RankingPoster>
+              ))}
+            </RankingPosterUl>
+          </RankingContainer>
+        )}
+      </Ranking>
+      {/* 베스트다운로드 */}
+      <BestPlay>
+        <BestMainname>
+          <BestMainTilteP>Best Preview</BestMainTilteP>
+        </BestMainname>
+        <BestMainBox>
+          <BestMainContainer>
+            {/* {movies.boxOffice ? (
               <MovieVideo id={movies.boxOffice[0].id} />
             ) : (
               require("../assets/noPosterSmall.png").default
@@ -353,173 +360,170 @@ const Home = () => {
                   </BestSubMovie>
                 );
               })} */}
-                {movies.boxOffice ? (
-                  <MovieVideo id={movies.boxOffice[0].id} />
-                ) : (
-                    require("../assets/noPosterSmall.png").default
-                  )}
-              </BestMainContainer>
-              <BestSubContainer scrollY={position.BestPlay}>
-                {movies.boxOffice &&
-                  movies.boxOffice.slice(1, 4).map((movies, idx) => {
-                    return (
-                      <BestSubMovie>
-                        <MovieVideo key={idx} id={movies.id} />
-                      </BestSubMovie>
-                    );
-                  })}
-              </BestSubContainer>
-            </BestMainBox>
-          </BestPlay>
-          {/* 이벤트 */}
-          <Event>
-            <Eventname>
-              <EventnameSpan>Event</EventnameSpan>
-            </Eventname>
-            <EventImgs scrollY={position.Event}>
-              {event.results && event.results.map((event, idx) => {
-                  if (idx < 3) {
+            {movies.boxOffice ? (
+              <MovieVideo id={movies.boxOffice[0].id} />
+            ) : (
+              require("../assets/noPosterSmall.png").default
+            )}
+          </BestMainContainer>
+          <BestSubContainer scrollY={position.BestPlay}>
+            {movies.boxOffice &&
+              movies.boxOffice.slice(1, 4).map((movies, idx) => {
+                return (
+                  <BestSubMovie>
+                    <MovieVideo key={idx} id={movies.id} />
+                  </BestSubMovie>
+                );
+              })}
+          </BestSubContainer>
+        </BestMainBox>
+      </BestPlay>
+      {/* 이벤트 */}
+      <Event>
+        <Eventname>
+          <EventnameSpan>Event</EventnameSpan>
+        </Eventname>
+        <EventImgs scrollY={position.Event}>
+          {event.results &&
+            event.results.map((event, idx) => {
+              if (idx < 3) {
                 return (
                   <EventImg>
                     <EventPoster
-                        src={event.backdrop}
-                        id={event.id}
-                        day={event.remain_date}
-                        title={event.title}/>
+                      src={event.backdrop}
+                      id={event.id}
+                      day={event.remain_date}
+                      title={event.title}
+                    />
                   </EventImg>
-                );}
-              })}
-            </EventImgs>
-          </Event>
-          {/* 공지사항 */}
-          <Notice>
-            <NoticeInner>
-              <Noticename>
-                {/* 링크 걸기 */}
-                <NoticenameContext>공지사항</NoticenameContext>
-                <NoticenameItem>[안내] 어쩌구 저쩌구...</NoticenameItem>
-              </Noticename>
-            </NoticeInner>
-            <NoticeInfo>
-              {/* nav 사용 */}
-              <NoticeInfoList>
-                {/* {[1, 2, 3, 4, 5, 6].map((i) => ( */}
-                <NoticeInfoItem>
-                  <a
-                    href="http://www.yes24.com/Mall/Help/CS/Apply"
-                    style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
-                  >
-                    <span>1:1상담</span>
-                    <Icon>
-                      <HeadsetMicIcon
-                        fontSize="large"
-                        style={{
-                          height: "48px",
-                          width: "48px",
-                          margin: "10px 0 0",
-                        }}
-                      />
-                    </Icon>
-                  </a>
-                </NoticeInfoItem>
-                <NoticeInfoItem>
-                  <a
-                    href="https://movie.yes24.com/HelpDesk/Faq/"
-                    style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
-                  >
-                    <span>FAQ</span>
-                    <Icon>
-                      <QuestionAnswerIcon
-                        fontSize="large"
-                        style={{
-                          height: "48px",
-                          width: "48px",
-                          margin: "12px 0 0",
-                        }}
-                      />
-                    </Icon>
-                  </a>
-                </NoticeInfoItem>
-                <NoticeInfoItem>
-                  <a
-                    href="https://movie.yes24.com/HelpDesk/DiscountInfo"
-                    style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
-                  >
-                    <span>할인안내</span>
-                    <Icon>
-                      <MonetizationOnIcon
-                        fontSize="large"
-                        style={{
-                          height: "46px",
-                          width: "46px",
-                          margin: "10px 0 0",
-                        }}
-                      />
-                    </Icon>
-                  </a>
-                </NoticeInfoItem>
-                <NoticeInfoItem>
-                  <a
-                    href="https://movie.yes24.com/HelpDesk/CouponInfo"
-                    style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
-                  >
-                    <span>예매권안내</span>
-                    <Icon style={{ margin: "auto" }}>
-                      <DraftsIcon
-                        fontSize="large"
-                        style={{
-                          height: "48px",
-                          width: "48px",
-                          margin: "12px 0 0",
-                        }}
-                      />
-                    </Icon>
-                  </a>
-                </NoticeInfoItem>
-                <NoticeInfoItem>
-                  <a
-                    href="https://movie.yes24.com/HelpDesk/GuideInfo"
-                    style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
-                  >
-                    <span>예매 안내</span>
-                    <Icon>
-                      <AccessTimeIcon
-                        fontSize="large"
-                        style={{
-                          height: "48px",
-                          width: "48px",
-                          margin: "10px 0 0",
-                        }}
-                      />
-                    </Icon>
-                  </a>
-                </NoticeInfoItem>
-                <NoticeInfoItem>
-                  <a
-                    href="https://movie.yes24.com/HelpDesk/TheaterInfo"
-                    style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
-                  >
-                    <span>극장안내</span>
-                    <Icon>
-                      <TheatersIcon
-                        fontSize="large"
-                        style={{
-                          height: "48px",
-                          width: "48px",
-                          margin: "12px 0 0",
-                        }}
-                      />
-                    </Icon>
-                  </a>
-                </NoticeInfoItem>
-                {/* <MoviePoster key={i}></MoviePoster> */}
-                {/* </NoticeInfoItem> */}
-                {/* ))} */}
-              </NoticeInfoList>
-            </NoticeInfo>
-          </Notice>
-        </HomePage>
-      ));
+                );
+              }
+            })}
+        </EventImgs>
+      </Event>
+      {/* 공지사항 */}
+      <Notice>
+        <NoticeInner>
+          <Noticename>
+            {/* 링크 걸기 */}
+            <NoticenameContext>공지사항</NoticenameContext>
+            <NoticenameItem>[안내] 어쩌구 저쩌구...</NoticenameItem>
+          </Noticename>
+        </NoticeInner>
+        <NoticeInfo>
+          {/* nav 사용 */}
+          <NoticeInfoList>
+            {/* {[1, 2, 3, 4, 5, 6].map((i) => ( */}
+            <NoticeInfoItem>
+              <a
+                style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
+              >
+                <span>1:1상담</span>
+                <Icon>
+                  <HeadsetMicIcon
+                    fontSize="large"
+                    style={{
+                      height: "48px",
+                      width: "48px",
+                      margin: "10px 0 0",
+                    }}
+                  />
+                </Icon>
+              </a>
+            </NoticeInfoItem>
+            <NoticeInfoItem>
+              <a
+                style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
+              >
+                <span>FAQ</span>
+                <Icon>
+                  <QuestionAnswerIcon
+                    fontSize="large"
+                    style={{
+                      height: "48px",
+                      width: "48px",
+                      margin: "12px 0 0",
+                    }}
+                  />
+                </Icon>
+              </a>
+            </NoticeInfoItem>
+            <NoticeInfoItem>
+              <a
+                style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
+              >
+                <span>할인안내</span>
+                <Icon>
+                  <MonetizationOnIcon
+                    fontSize="large"
+                    style={{
+                      height: "46px",
+                      width: "46px",
+                      margin: "10px 0 0",
+                    }}
+                  />
+                </Icon>
+              </a>
+            </NoticeInfoItem>
+            <NoticeInfoItem>
+              <a
+                style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
+              >
+                <span>예매권안내</span>
+                <Icon style={{ margin: "auto" }}>
+                  <DraftsIcon
+                    fontSize="large"
+                    style={{
+                      height: "48px",
+                      width: "48px",
+                      margin: "12px 0 0",
+                    }}
+                  />
+                </Icon>
+              </a>
+            </NoticeInfoItem>
+            <NoticeInfoItem>
+              <a
+                style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
+              >
+                <span>예매 안내</span>
+                <Icon>
+                  <AccessTimeIcon
+                    fontSize="large"
+                    style={{
+                      height: "48px",
+                      width: "48px",
+                      margin: "10px 0 0",
+                    }}
+                  />
+                </Icon>
+              </a>
+            </NoticeInfoItem>
+            <NoticeInfoItem>
+              <a
+                style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
+              >
+                <span>극장안내</span>
+                <Icon>
+                  <TheatersIcon
+                    fontSize="large"
+                    style={{
+                      height: "48px",
+                      width: "48px",
+                      margin: "12px 0 0",
+                    }}
+                  />
+                </Icon>
+              </a>
+            </NoticeInfoItem>
+            {/* <MoviePoster key={i}></MoviePoster> */}
+            {/* </NoticeInfoItem> */}
+            {/* ))} */}
+          </NoticeInfoList>
+        </NoticeInfo>
+      </Notice>
+    </HomePage>
+  );
 };
 
 export default Home;

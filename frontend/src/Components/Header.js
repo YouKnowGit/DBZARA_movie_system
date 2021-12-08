@@ -9,6 +9,7 @@ import GoogleLogin from "react-google-login";
 import KakaoLogin from "react-kakao-login";
 import { UserContext } from "../context";
 import { socialAPI } from "../junsu-api";
+import logo from "assets/logo.svg";
 // TODO 메뉴, 서치 클릭 -> 사이드바
 
 export default withRouter(({ location: { pathname } }) => {
@@ -88,7 +89,9 @@ export default withRouter(({ location: { pathname } }) => {
       <Header current={pathname !== "/"} scrollY={position}>
         <List>
           <Logo>
-            <SLink to="/">Logo</SLink>
+            <SLink to="/">
+              <LogoImg src={logo} />
+            </SLink>
           </Logo>
         </List>
         <List>
@@ -314,6 +317,14 @@ const SubListBg = styled.div`
 
 const SLink = styled(Link)`
   margin-bottom: 20px;
+`;
+
+const LogoImg = styled.img`
+  position: relative;
+  top: -5px;
+  left: -40px;
+  width: 200px;
+  height: 40px;
 `;
 
 const LinkText = styled.p`
