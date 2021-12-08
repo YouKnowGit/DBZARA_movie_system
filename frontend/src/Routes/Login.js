@@ -193,19 +193,14 @@ const Login = () => {
 
   const { userInfo, handleUserInfo } = useContext(UserContext);
 
-
   const responseGoogle = async (response) => {
     const { profileObj } = response;
     const dbzaraToken = await socialAPI.googleLogin(profileObj);
-    console.log("구글", dbzaraToken);
-    console.log("구글token", dbzaraToken.data.token);
     handleUserInfo(dbzaraToken.data.token);
   };
   const onSuccess = async (response) => {
     const { profile } = response;
     const dbzaraToken = await socialAPI.kakaoLogin(profile);
-    console.log("카카오", dbzaraToken);
-    console.log("카카오token", dbzaraToken.data.token);
     handleUserInfo(dbzaraToken.data.token);
   };
   useEffect(() => {
