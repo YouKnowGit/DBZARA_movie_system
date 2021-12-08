@@ -175,20 +175,20 @@ const Footer = () => {
                 <DivDd>
                   <DdTextFirst>
                     {/* <body link ="black" vlink ="red" alink = "darkgreen"> */}
-                    <a href="http://company.yes24.com/" style={{ color: "#2b2b2b" }} target="_blank">회사소개</a>
+                    <a style={{ color: "#2b2b2b" }}>회사소개</a>
                     {/* </body> */}
                   </DdTextFirst>
                   <DdText>
-                    <a href="http://www.yes24.com/notice/service.aspx" target="_blank" style={{ color: "#2b2b2b" }}>이용약관</a>
+                    <a style={{ color: "#2b2b2b" }}>이용약관</a>
                   </DdText>
                   <DdText>
-                    <a href="http://www.yes24.com/notice/privacypolicy.aspx" target="_blank" style={{ color: "#2b2b2b" }}>개인정보처리방침</a>
+                    <a style={{ color: "#2b2b2b" }}>개인정보처리방침</a>
                   </DdText>
                   <DdText>
-                    <a href="http://www.yes24.com/notice/youthpolicy.aspx" target="_blank" style={{ color: "#2b2b2b" }}>청소년보호정책</a>
+                    <a style={{ color: "#2b2b2b" }}>청소년보호정책</a>
                   </DdText>
                   <DdText>
-                    <a href="/Event/Movie_Prize_Result_Awards" style={{ color: "#2b2b2b" }}>공동체 영화상 CAMP</a>
+                    <a style={{ color: "#2b2b2b" }}>공동체 영화상 CAMP</a>
                   </DdText>
                 </DivDd>
                 <AddrInfo>
@@ -196,7 +196,7 @@ const Footer = () => {
                   <CallCont>한양대학교 ERICA 솦트웨어학부 (학연산클러스터 5층)</CallCont>
                   <CallCont>대표 : 누구게        개인정보보호책임자 : 노하준 hajoon0516@naver.com</CallCont>
                   <CallCont>사업자등록번호 : 229-81-37000   통신판매업신고 : 제 2005-02682호
-                      <a href="https://www.ftc.go.kr/www/bizCommList.do?key=232" style={{ margin: "0 0 0 10px", borderBottom: "1px solid #a7a6a6", color: "#2b2b2b" }}>사업자 정보확인</a>
+                      <a style={{ margin: "0 0 0 10px", borderBottom: "1px solid #a7a6a6", color: "#2b2b2b" }}>사업자 정보확인</a>
                   </CallCont>
                   <CallCont>Copyright  ⓒ YES24 Corp. All Rights Reserved.</CallCont>
                 </AddrInfo>
@@ -206,9 +206,7 @@ const Footer = () => {
           <FooterCall>
             <FooterCallCont>
               <CallContTxt>모르면? 디비자라에 문의</CallContTxt>
-              <a href="https://www.yes24.com/Mall/Help/CS/Apply" target="_blank">
-                <InquiryLink>1:1문의 하기</InquiryLink>
-              </a>
+              <a><InquiryLink>1:1문의 하기</InquiryLink></a>
             </FooterCallCont>
             <TopAreaShow>
               <TopButton onClick={() => window.scrollTo(0, 0)}>최상단으로 이동</TopButton>

@@ -371,7 +371,7 @@ const Home = () => {
               <Noticename>
                 {/* 링크 걸기 */}
                 <NoticenameContext>공지사항</NoticenameContext>
-                <NoticenameItem>[안내] 어쩌구 저쩌구...</NoticenameItem>
+                <NoticenameItem>[공지] 디비자라 영화관 전국 OPEN </NoticenameItem>
               </Noticename>
             </NoticeInner>
             <NoticeInfo>
@@ -380,7 +380,6 @@ const Home = () => {
                 {/* {[1, 2, 3, 4, 5, 6].map((i) => ( */}
                 <NoticeInfoItem>
                   <a
-                    href="http://www.yes24.com/Mall/Help/CS/Apply"
                     style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
                   >
                     <span>1:1상담</span>
@@ -398,7 +397,6 @@ const Home = () => {
                 </NoticeInfoItem>
                 <NoticeInfoItem>
                   <a
-                    href="https://movie.yes24.com/HelpDesk/Faq/"
                     style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
                   >
                     <span>FAQ</span>
@@ -416,7 +414,6 @@ const Home = () => {
                 </NoticeInfoItem>
                 <NoticeInfoItem>
                   <a
-                    href="https://movie.yes24.com/HelpDesk/DiscountInfo"
                     style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
                   >
                     <span>할인안내</span>
@@ -434,7 +431,6 @@ const Home = () => {
                 </NoticeInfoItem>
                 <NoticeInfoItem>
                   <a
-                    href="https://movie.yes24.com/HelpDesk/CouponInfo"
                     style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
                   >
                     <span>예매권안내</span>
@@ -452,7 +448,6 @@ const Home = () => {
                 </NoticeInfoItem>
                 <NoticeInfoItem>
                   <a
-                    href="https://movie.yes24.com/HelpDesk/GuideInfo"
                     style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
                   >
                     <span>예매 안내</span>
@@ -470,7 +465,6 @@ const Home = () => {
                 </NoticeInfoItem>
                 <NoticeInfoItem>
                   <a
-                    href="https://movie.yes24.com/HelpDesk/TheaterInfo"
                     style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
                   >
                     <span>극장안내</span>
