@@ -396,134 +396,133 @@ const Home = () => {
                       title={event.title}
                     />
                   </EventImg>
-                );
-              }
-            })}
-        </EventImgs>
-      </Event>
-      {/* 공지사항 */}
-      <Notice>
-        <NoticeInner>
-          <Noticename>
-            {/* 링크 걸기 */}
-            <NoticenameContext>공지사항</NoticenameContext>
-            <NoticenameItem>[안내] 어쩌구 저쩌구...</NoticenameItem>
-          </Noticename>
-        </NoticeInner>
-        <NoticeInfo>
-          {/* nav 사용 */}
-          <NoticeInfoList>
-            {/* {[1, 2, 3, 4, 5, 6].map((i) => ( */}
-            <NoticeInfoItem>
-              <a
-                style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
-              >
-                <span>1:1상담</span>
-                <Icon>
-                  <HeadsetMicIcon
-                    fontSize="large"
-                    style={{
-                      height: "48px",
-                      width: "48px",
-                      margin: "10px 0 0",
-                    }}
-                  />
-                </Icon>
-              </a>
-            </NoticeInfoItem>
-            <NoticeInfoItem>
-              <a
-                style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
-              >
-                <span>FAQ</span>
-                <Icon>
-                  <QuestionAnswerIcon
-                    fontSize="large"
-                    style={{
-                      height: "48px",
-                      width: "48px",
-                      margin: "12px 0 0",
-                    }}
-                  />
-                </Icon>
-              </a>
-            </NoticeInfoItem>
-            <NoticeInfoItem>
-              <a
-                style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
-              >
-                <span>할인안내</span>
-                <Icon>
-                  <MonetizationOnIcon
-                    fontSize="large"
-                    style={{
-                      height: "46px",
-                      width: "46px",
-                      margin: "10px 0 0",
-                    }}
-                  />
-                </Icon>
-              </a>
-            </NoticeInfoItem>
-            <NoticeInfoItem>
-              <a
-                style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
-              >
-                <span>예매권안내</span>
-                <Icon style={{ margin: "auto" }}>
-                  <DraftsIcon
-                    fontSize="large"
-                    style={{
-                      height: "48px",
-                      width: "48px",
-                      margin: "12px 0 0",
-                    }}
-                  />
-                </Icon>
-              </a>
-            </NoticeInfoItem>
-            <NoticeInfoItem>
-              <a
-                style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
-              >
-                <span>예매 안내</span>
-                <Icon>
-                  <AccessTimeIcon
-                    fontSize="large"
-                    style={{
-                      height: "48px",
-                      width: "48px",
-                      margin: "10px 0 0",
-                    }}
-                  />
-                </Icon>
-              </a>
-            </NoticeInfoItem>
-            <NoticeInfoItem>
-              <a
-                style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
-              >
-                <span>극장안내</span>
-                <Icon>
-                  <TheatersIcon
-                    fontSize="large"
-                    style={{
-                      height: "48px",
-                      width: "48px",
-                      margin: "12px 0 0",
-                    }}
-                  />
-                </Icon>
-              </a>
-            </NoticeInfoItem>
-            {/* <MoviePoster key={i}></MoviePoster> */}
-            {/* </NoticeInfoItem> */}
-            {/* ))} */}
-          </NoticeInfoList>
-        </NoticeInfo>
-      </Notice>
-    </HomePage>
-  );
+                );}
+              })}
+            </EventImgs>
+          </Event>
+          {/* 공지사항 */}
+          <Notice>
+            <NoticeInner>
+              <Noticename>
+                {/* 링크 걸기 */}
+                <NoticenameContext>공지사항</NoticenameContext>
+                <NoticenameItem>[공지] 디비자라 영화관 전국 OPEN </NoticenameItem>
+              </Noticename>
+            </NoticeInner>
+            <NoticeInfo>
+              {/* nav 사용 */}
+              <NoticeInfoList>
+                {/* {[1, 2, 3, 4, 5, 6].map((i) => ( */}
+                <NoticeInfoItem>
+                  <a
+                    style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
+                  >
+                    <span>1:1상담</span>
+                    <Icon>
+                      <HeadsetMicIcon
+                        fontSize="large"
+                        style={{
+                          height: "48px",
+                          width: "48px",
+                          margin: "10px 0 0",
+                        }}
+                      />
+                    </Icon>
+                  </a>
+                </NoticeInfoItem>
+                <NoticeInfoItem>
+                  <a
+                    style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
+                  >
+                    <span>FAQ</span>
+                    <Icon>
+                      <QuestionAnswerIcon
+                        fontSize="large"
+                        style={{
+                          height: "48px",
+                          width: "48px",
+                          margin: "12px 0 0",
+                        }}
+                      />
+                    </Icon>
+                  </a>
+                </NoticeInfoItem>
+                <NoticeInfoItem>
+                  <a
+                    style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
+                  >
+                    <span>할인안내</span>
+                    <Icon>
+                      <MonetizationOnIcon
+                        fontSize="large"
+                        style={{
+                          height: "46px",
+                          width: "46px",
+                          margin: "10px 0 0",
+                        }}
+                      />
+                    </Icon>
+                  </a>
+                </NoticeInfoItem>
+                <NoticeInfoItem>
+                  <a
+                    style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
+                  >
+                    <span>예매권안내</span>
+                    <Icon style={{ margin: "auto" }}>
+                      <DraftsIcon
+                        fontSize="large"
+                        style={{
+                          height: "48px",
+                          width: "48px",
+                          margin: "12px 0 0",
+                        }}
+                      />
+                    </Icon>
+                  </a>
+                </NoticeInfoItem>
+                <NoticeInfoItem>
+                  <a
+                    style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
+                  >
+                    <span>예매 안내</span>
+                    <Icon>
+                      <AccessTimeIcon
+                        fontSize="large"
+                        style={{
+                          height: "48px",
+                          width: "48px",
+                          margin: "10px 0 0",
+                        }}
+                      />
+                    </Icon>
+                  </a>
+                </NoticeInfoItem>
+                <NoticeInfoItem>
+                  <a
+                    style={{ fontSize: "14px", color: "#2b2b2b", outline: "none" }}
+                  >
+                    <span>극장안내</span>
+                    <Icon>
+                      <TheatersIcon
+                        fontSize="large"
+                        style={{
+                          height: "48px",
+                          width: "48px",
+                          margin: "12px 0 0",
+                        }}
+                      />
+                    </Icon>
+                  </a>
+                </NoticeInfoItem>
+                {/* <MoviePoster key={i}></MoviePoster> */}
+                {/* </NoticeInfoItem> */}
+                {/* ))} */}
+              </NoticeInfoList>
+            </NoticeInfo>
+          </Notice>
+        </HomePage>
+      ));
 };
 
 export default Home;
