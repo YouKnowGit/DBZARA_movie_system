@@ -1,13 +1,25 @@
 {% extends '_base.html' %}
+{% load static %}
+
+{% block styles %}
+
+{% endblock %}
 
 {% block content %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col mb-3">
+            <div class="col mb3">
                 {% include '_search_bar.html' %}
+            </div>
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col">
+                <div style="
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            ">{% include '_button.html' %}</div>
             </div>
         </div>
     </div>

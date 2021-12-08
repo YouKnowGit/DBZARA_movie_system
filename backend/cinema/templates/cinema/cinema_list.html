@@ -9,6 +9,38 @@
 {% endblock table-title %}
 
 {% block headers %}
+<style>
+    .jaehun_flex {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .jh2{
+        padding-top: 28px;
+    }
+    .jh-m{
+        margin: 30px 0
+
+    .jh-date {
+        margin: 5px 0 0 5px;
+    }
+</style>
+
+<div class="container-fluid jh-m">
+    <div class="row mb-3">
+        <div class="col jh2"><input type="date" class="jh-date"/></div>
+        <div class="col ">
+            {% include '_search_bar.html' %}
+        </div>
+        <div class="col"></div>
+        <div class="col jaehun_flex jh2">
+            <div class="jaehun_flex">{% include '_button.html' %}</div>
+            <div class="jaehun_flex">{% include '_modify_button.html' %}</div>
+        </div>
+    </div>
+</div>
     <tr>
         <th>광역</th>
         <th>지역</th>
