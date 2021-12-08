@@ -90,24 +90,31 @@ class MovieInfoSerializer(serializers.ModelSerializer):
 
 class MovieRankSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField(source='movie.id')
-    poster = serializers.ImageField(source='movie.poster', use_url=True)
-    backdrop = serializers.ImageField(source='movie.backdrop', use_url=True)
 
     class Meta(MovieSerializer.Meta):
         model = MovieRank
-        fields = ['id', 'name', 'grade', 'poster', 'backdrop']
+        fields = ['id', 'name', 'grade']
 
 
 class ReservationRankSerializer(MovieRankSerializer):
+    poster = serializers.ImageField(source='movie.poster', use_url=True)
+    backdrop = serializers.ImageField(source='movie.backdrop', use_url=True)
+
     class Meta(MovieRankSerializer.Meta):
-        fields = MovieRankSerializer.Meta.fields + ['reservation_rate', 'review_rate']
+        fields = MovieRankSerializer.Meta.fields + ['poster', 'backdrop', 'reservation_rate', 'review_rate']
 
 
 class ReviewRankSerializer(MovieRankSerializer):
+    poster = serializers.ImageField(source='movie.poster', use_url=True)
+    backdrop = serializers.ImageField(source='movie.backdrop', use_url=True)
+
     class Meta(MovieRankSerializer.Meta):
-        fields = MovieRankSerializer.Meta.fields + ['review_rate', 'review_rate']
+        fields = MovieRankSerializer.Meta.fields + ['poster', 'backdrop', 'reservation_rate', 'review_rate']
 
 
 class NotOpenSerializer(MovieRankSerializer):
+    poster = serializers.ImageField(source='movie.poster', use_url=True)
+    backdrop = serializers.ImageField(source='movie.backdrop', use_url=True)
+
     class Meta(MovieRankSerializer.Meta):
-        fields = MovieRankSerializer.Meta.fields + ['opening_count']
+        fields = MovieRankSerializer.Meta.fields + ['poster', 'backdrop', 'opening_count']

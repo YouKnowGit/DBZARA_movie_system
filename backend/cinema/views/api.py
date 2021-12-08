@@ -8,8 +8,8 @@ from rest_framework import status
 
 from cinema.serializers import CinemaSerializer, CinemaDetailSerializer, ReservationSerializer
 from cinema.models import Cinema, Theater, Seat, Schedule
-from movie.models import Movie
-from movie.serializers import ReservationChoiceMovieSerializer, MovieSerializer, MovieShortSerializer
+from movie.models import Movie, MovieRank
+from movie.serializers import ReservationChoiceMovieSerializer, MovieSerializer, MovieShortSerializer, MovieRankSerializer
 
 
 class CinemaListAPIView(ListAPIView):
@@ -78,30 +78,17 @@ class ScheduleAPIView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
-        option = self.request.query_params.get('option', 'top')
-        today = date.today()
-        movie_query_set = sorted(Movie.objects.filter(
-            closing_date__gte=today
-        ), key=lambda movie: movie.reservation_rate, reverse=True)
+        cinema_query_set = Cinema.objects.all()
+        cinema_serializer = CinemaSerializer(cinema_query_set, many=True)
+        movie_query_set = MovieRank.objects.exclude(reservation_rate_rank=0).order_by('reservation_rate_rank', 'review_rate_rank')
+        movie_serializer = MovieRankSerializer(movie_query_set[:10], many=True)
+        rest_serializer = MovieRankSerializer(movie_query_set[10:], many=True)
 
-        if option == 'top':
-            cinema_query_set = Cinema.objects.all()
-            cinema_serializer = CinemaSerializer(cinema_query_set, many=True)
-            movie_serializer = ReservationChoiceMovieSerializer(movie_query_set[:10], many=True)
-            rest_serializer = ReservationChoiceMovieSerializer(movie_query_set[10:], many=True)
-
-            return Response({
-                'cinemas': cinema_serializer.data,
-                'movies': movie_serializer.data,
-                'rests': rest_serializer.data
-
-            }, status=status.HTTP_200_OK)
-
-        elif option == 'sub':
-            movie_query_set = movie_query_set[10:]
-            movie_serializer = ReservationChoiceMovieSerializer(movie_query_set[:10], many=True)
-            rest_serializer = ReservationChoiceMovieSerializer(movie_query_set[10:], many=True)
-            return Response(movie_serializer.data, status=status.HTTP_200_OK)
+        return Response({
+            'cinemas': cinema_serializer.data,
+            'movies': movie_serializer.data,
+            'rests': rest_serializer.data
+        }, status=status.HTTP_200_OK)
 
     def post(self, request):
         schedule = request.data
