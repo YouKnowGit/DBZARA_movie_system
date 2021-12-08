@@ -66,25 +66,18 @@ const Reservation = () => {
     error: null,
     loading: true,
   });
-  let [restMovies, setRestMovies] = useState({
-    restMovie: null,
-    error: null,
-    loading: true,
-  });
+
   async function feactApi() {
     try {
       // TOP10
       const {
-        data: { movies, cinemas },
+        data: { movies, cinemas, rests },
       } = await dbzaraApi.schedule();
-
-      const { data: restMovie } = await dbzaraApi.moviesList();
-      console.log("나머지영화들", restMovie);
-      setRestMovies((restMovies) => ({ ...restMovies, restMovie }));
       setSchedule((prevState) => ({
         ...prevState,
         movies,
         cinemas,
+        others: rests,
       }));
       console.log(schedule);
     } catch {
@@ -138,6 +131,8 @@ const Reservation = () => {
     selected: 0,
   });
 
+  const [payment, onPayment] = useState({ choices: false, card: null });
+
   const onMovieChoice = async (movieId) => {
     const {
       data: { cinemas, date, movies },
@@ -166,7 +161,10 @@ const Reservation = () => {
     setSchedule((prevState) => ({
       ...prevState,
       movies: movies,
-      date: (date && prevState.date) ? date.filter((prev) => prevState.date.includes(prev)) : date,
+      date:
+        date && prevState.date
+          ? date.filter((prev) => prevState.date.includes(prev))
+          : date,
     }));
 
     setScheduleChoice((prevState) => ({
@@ -203,12 +201,15 @@ const Reservation = () => {
   };
 
   const onClickDay = (toDay) => {
+    console.log("sdfds", toDay);
     setScheduleChoice((prevState) => ({
       ...prevState,
-      date: `${toDay.getFullYear()}-${String(toDay.getMonth()).padStart(2, "0")}-${String(toDay.getDate()).padStart(2, "0")}`
-    }))
-
-  }
+      date: `${toDay.getFullYear()}-${String(toDay.getMonth() + 1).padStart(
+        2,
+        "0"
+      )}-${String(toDay.getDate()).padStart(2, "0")}`,
+    }));
+  };
 
   // !  cinema data
   const area = [
@@ -300,7 +301,7 @@ const Reservation = () => {
   };
 
   // ! 현재 화면idx
-  const [display, onDisplay] = useState(1);
+  const [display, onDisplay] = useState(4);
 
   // ! 다음 페이지
   const [nextStep, setNextStep] = useState(false);
@@ -404,8 +405,8 @@ const Reservation = () => {
                       </AccordionSummary>
                       <AccordionDetails>
                         <MovieUl>
-                          {restMovies.restMovie &&
-                            restMovies.restMovie.map((movie, idx) => (
+                          {schedule.others &&
+                            schedule.others.map((movie, idx) => (
                               <MovieLi
                                 key={idx}
                                 onClick={() => onMovieChoice(movie.id)}
@@ -426,53 +427,11 @@ const Reservation = () => {
                         </MovieUl>
                       </AccordionDetails>
                     </Accordion>
-                    <Accordion
-                      square
-                      expanded={expanded === "panel3"}
-                      onChange={handleChange("panel3")}
-                    >
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel3d-content"
-                        id="panel3d-header"
-                      >
-                        <Typography>회원 나이대 영화순위</Typography>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        {/* //Todo 회원 나이대 영화순위 정렬 */}
-                        <MovieUl>
-                          <MovieLi>
-                            {userInfo.token ? null : (
-                              <Link to="/Login">로그인을 해주세요</Link>
-                            )}
-                          </MovieLi>
-                        </MovieUl>
-                      </AccordionDetails>
-                    </Accordion>
                   </div>
                 </MoviesChoice>
                 <TheaterChoice>
                   <span>극장선택</span>
-                  <div>
-                    {/* // TODO MY극장 위에 상영관 추천 추가 */}
-                    <Accordion2
-                      expanded={expanded2 === "panel1"}
-                      onChange={handleChange2("panel1")}
-                    >
-                      <AccordionSummary2
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1bh-content"
-                        id="panel1bh-header"
-                      >
-                        <Typography>MY극장</Typography>
-                      </AccordionSummary2>
-                      <AccordionDetails2>
-                        {/* //TODO userData 넣기 */}
-                        <Typography>설정한 MY극장이 없습니다.</Typography>
-                        <Typography>설정하러 가실?</Typography>
-                      </AccordionDetails2>
-                    </Accordion2>
-                  </div>
+
                   <div className={tabStyled.root}>
                     <Tabs
                       orientation="vertical"
@@ -587,7 +546,11 @@ const Reservation = () => {
             theaterChoice={theater.choice}
             setPeopleSum={setNextStepMui}
           />
-          <DiscountReservation display={display} />
+          <DiscountReservation
+            display={display}
+            choice={payment}
+            onChoice={onPayment}
+          />
         </ReservationInfo>
         {scheduleChoice.movieDetail ? (
           <MoviesDetail choice={scheduleChoice.movie !== null}>
@@ -684,7 +647,9 @@ const Reservation = () => {
                       nextStepMui.preferentialNum * 8000
                     }원`}</p>
                   </div>
-                  {display === 4 && <Btn>결제</Btn>}
+                  {display === 4 && (
+                    <Btn activation={payment.choices}>결제</Btn>
+                  )}
                 </AmountInfo>
               </>
             )}
@@ -713,21 +678,6 @@ const Reservation = () => {
         state={display}
         nextStep={nextStep}
       >
-        {/* {console.log("nextStep", nextStep)}
-        {console.log("display", display)}
-        {console.log("nextStep1", display === 1 && theater.choice !== null)}
-        {console.log(
-          "nextStep2",
-          display === 2 && nextStepMui.agree1 && nextStepMui.agree2
-        )}
-        {console.log(
-          "nextStep3",
-          display === 3 && nextStepMui.peopleSum === nextStepMui.selected
-        )}
-        {console.log("nextStep3-1", nextStepMui.adultNum)}
-        {console.log("nextStep3-2", nextStepMui.teenagerNum)}
-        {console.log("nextStep3-3", nextStepMui.preferentialNum)}
-        {console.log("nextStep3-4", nextStepMui.selected)} */}
         <p>
           <ArrowForwardIcon fontSize="large" />
         </p>
@@ -845,7 +795,7 @@ const TheaterChoice = styled.div`
   display: flex;
   flex-direction: column;
   height: 620px;
-  overflow: hidden;
+  /* overflow: hidden; */
 `;
 
 const TheaterRegion = styled.div`
@@ -945,7 +895,7 @@ const TicketInfo = styled.div`
   }
 
   > p:last-child :last-child {
-    color: red;
+    color: RGB(236, 97, 90);
   }
 `;
 
@@ -964,7 +914,7 @@ const AmountInfo = styled.div`
     font-size: 14px;
     > p:last-child {
       padding-top: 14px;
-      color: red;
+      color: RGB(236, 97, 90);
       font-size: 24px;
     }
   }
@@ -976,7 +926,9 @@ const Btn = styled(Button)`
     height: 80px;
     text-align: center;
     border: 1px solid rgba(0, 0, 0, 0.125);
-    color: rgba(0, 0, 0, 0.125);
+    color: white;
+    ${(prop) =>
+      prop.activation ? "background-color: RGB(236, 97, 90);" : null}
   }
 `;
 
@@ -1137,28 +1089,7 @@ const AccordionSummary = withStyles({
 const AccordionDetails = styled(MuiAccordionDetails)`
   && {
     padding: 15px;
-    height: 408px;
-  }
-`;
-
-const Accordion2 = styled(Accordion)`
-  && {
-    border: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.125);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-  }
-`;
-
-const AccordionSummary2 = styled(AccordionSummary)`
-  && {
-    border: 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-  }
-`;
-
-const AccordionDetails2 = styled(AccordionDetails)`
-  && {
-    height: 50px;
+    height: 470px;
   }
 `;
 
