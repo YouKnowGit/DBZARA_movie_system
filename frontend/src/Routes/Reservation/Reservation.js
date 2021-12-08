@@ -166,7 +166,7 @@ const Reservation = () => {
     setSchedule((prevState) => ({
       ...prevState,
       movies: movies,
-      date: date.filter((prev) => prevState.date.includes(prev)),
+      date: (date && prevState.date) ? date.filter((prev) => prevState.date.includes(prev)) : date,
     }));
 
     setScheduleChoice((prevState) => ({
@@ -201,6 +201,14 @@ const Reservation = () => {
       }
     }
   };
+
+  const onClickDay = (toDay) => {
+    setScheduleChoice((prevState) => ({
+      ...prevState,
+      date: `${toDay.getFullYear()}-${String(toDay.getMonth()).padStart(2, "0")}-${String(toDay.getDate()).padStart(2, "0")}`
+    }))
+
+  }
 
   // !  cinema data
   const area = [
@@ -517,12 +525,7 @@ const Reservation = () => {
                   <div>
                     <CalenderBox
                       onChange={onChange}
-                      onClickDay={(toDay) =>
-                        setScheduleChoice((prevState) => ({
-                          ...prevState,
-                          date: toDay.toISOString().split("T")[0],
-                        }))
-                      }
+                      onClickDay={onClickDay}
                       value={toDay}
                     />
                     <Explanation>

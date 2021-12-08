@@ -35,7 +35,7 @@ const PreferActor = ({ actorList }) => {
     <>
       <Container>
         <ActArea>
-          {actorList.map(people => {
+          {actorList && actorList.map(people => {
             return (
               <PeopleView
                   id={people.id}

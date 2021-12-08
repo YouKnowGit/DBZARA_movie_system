@@ -36,7 +36,7 @@ const PreferDirector = ({ directorList }) => {
       <Container>
         <ActArea>
 
-          {directorList ? (directorList.map(people => {
+          {directorList && directorList ? (directorList.map(people => {
             return (
               <PeopleView
                   id={people.id}
