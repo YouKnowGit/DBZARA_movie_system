@@ -123,11 +123,17 @@ const Home = () => {
   });
 
   // 개봉 예정작
-  let [notOpenMovies, setNotOpenMovies] = useState({
-    notOpen: null,
+  let [reviewMovies, setReviewMovies] = useState({
+    reviews: null,
     error: null,
     loading: true,
   });
+
+    let [notOpenMovies, setNotOpenMovies] = useState({
+        notOpen: null,
+        error: null,
+        loading: true,
+    });
 
   let [event, setEvent] = useState({
       results:null,
@@ -148,7 +154,13 @@ const Home = () => {
         data: { results: notOpen },
       } = await dbzaraApi.notOpen();
       setNotOpenMovies((movies) => ({ ...movies, notOpen }));
-
+      const {
+          data: {results: reviews}
+      } = await dbzaraApi.review();
+      setReviewMovies((prevState) => ({
+          ...prevState,
+          reviews
+      }))
       const {
           data: {results: event}
       } = await socialAPI.event();
@@ -201,7 +213,7 @@ const Home = () => {
   };
 
   // nav 클릭시 바꿀 movies 데이터
-  const NavList = ["RANKING", "BOXOFFICE", "COMING", "FESTIVAL"];
+  const NavList = ["RANKING", "REVIEW", "COMING"];
   // const Navcontext = ['예매순위','박스오피스','개봉예정작','영화제영화']
   const [onNav, setOnNav] = useState({
     data: null,
@@ -257,11 +269,11 @@ const Home = () => {
                 예매순위
           </Rankingli>
               <Rankingli
-                onClick={() => navChange(movies.boxOffice, 1)}
-                current="BOXOFFICE"
+                onClick={() => navChange(reviewMovies.reviews, 1)}
+                current="REVIEW"
                 state={onNav.navList}
               >
-                박스오피스
+                평점순위
           </Rankingli>
               <Rankingli
                 onClick={() => navChange(notOpenMovies.notOpen, 2)}
@@ -269,13 +281,6 @@ const Home = () => {
                 state={onNav.navList}
               >
                 개봉예정작
-          </Rankingli>
-              <Rankingli
-                onClick={() => navChange(movies.boxOffice, 3)}
-                current="FESTIVAL"
-                state={onNav.navList}
-              >
-                영화제영화
           </Rankingli>
             </RankingMenu>
             <RankingLeft />
@@ -299,8 +304,9 @@ const Home = () => {
                             <MovieName>{movies.name}</MovieName>
                             <MovieVote>
                               {onNav.navList === "RANKING"
-                                ? `${movies.reservation_rate}점`
-                                : ""}
+                                ? `${movies.reservation_rate}%`
+                                : onNav.navList === "REVIEW"
+                                    ? `${movies.review_rate}점` : `D-${parseInt(movies.opening_count)}`}
                             </MovieVote>
                           </MovieInfo>
                         </RankingPoster>

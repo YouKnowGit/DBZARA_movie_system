@@ -17,6 +17,12 @@ export const dbzaraApi = {
         option: "not-open",
       },
     }),
+  review: () =>
+    api.get("movie/", {
+      params: {
+          option: 'review'
+      }
+    }),
   movieInfo: (id) => api.get(`movie/${id}`),
   movieVideo: (id) => api.get(`movie/${id}/videos`),
 
