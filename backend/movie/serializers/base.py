@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from movie.models import (
-    Movie, Genre, Actor, Character, Director, Distributor, Image, Video, Review, MovieInfo
+    Movie, Genre, Actor, Character, Director, Distributor, Image, Video, Review, MovieInfo, MovieRank
 )
 
 
@@ -86,3 +86,28 @@ class MovieInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = MovieInfo
         fields = ['movie', 'age', 'gender', 'counts', 'sales', 'age_percent', 'gender_percent', 'updated']
+
+
+class MovieRankSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField(source='movie.id')
+    poster = serializers.ImageField(source='movie.poster', use_url=True)
+    backdrop = serializers.ImageField(source='movie.backdrop', use_url=True)
+
+    class Meta(MovieSerializer.Meta):
+        model = MovieRank
+        fields = ['id', 'name', 'grade', 'poster', 'backdrop']
+
+
+class ReservationRankSerializer(MovieRankSerializer):
+    class Meta(MovieRankSerializer.Meta):
+        fields = MovieRankSerializer.Meta.fields + ['reservation_rate']
+
+
+class ReviewRankSerializer(MovieRankSerializer):
+    class Meta(MovieRankSerializer.Meta):
+        fields = MovieRankSerializer.Meta.fields + ['review_rate']
+
+
+class NotOpenSerializer(MovieRankSerializer):
+    class Meta(MovieRankSerializer.Meta):
+        fields = MovieRankSerializer.Meta.fields + ['opening_count']

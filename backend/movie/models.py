@@ -1,6 +1,6 @@
 from datetime import date, timedelta
 
-from django.db import models
+from django.db import models, connection
 from django.utils.html import mark_safe
 
 from accounts.models import User
@@ -74,14 +74,11 @@ class Movie(models.Model):
 
     @property
     def reservation_rate(self):
-        # TODO: 다른 테이블로 이미 수치 계산 완료 되어야함.
-        return 0
-        now_date = date(2021, 12, 1)
-        return round(Reservation.objects.filter(
-            schedule__in=Schedule.objects.filter(movie=self, datetime__month=now_date.month, datetime__day=now_date.day)
-        ).count() / Reservation.objects.filter(
-            schedule__in=Schedule.objects.filter(datetime__month=now_date.month, datetime__day=now_date.day)
-        ).count(), 3) * 100
+        return round(self.movierank_set.first().reservation_rate, 1)
+
+    @property
+    def review_rate(self):
+        return round(self.movierank_set.first().review_rate, 1)
 
     @property
     def short_directors(self):
@@ -292,7 +289,62 @@ class MovieInfo(models.Model):
 
 class MovieRank(models.Model):
     movie = models.ForeignKey('Movie', on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    grade = models.IntegerField()
     reservation_rate = models.FloatField()
     review_rate = models.FloatField()
-    box_office_rank = models.IntegerField()
-    not_open_rank = models.IntegerField()
+    review_rate_rank = models.IntegerField()
+    reservation_rate_rank = models.IntegerField()
+
+    @property
+    def opening_count(self):
+        now_date = date.today()
+        return (self.movie.opening_date - now_date) / timedelta(days=1)
+
+    @classmethod
+    def update(cls):
+        now_date = date.today()
+        cursor = connection.cursor()
+        cursor.execute("TRUNCATE TABLE movie_movierank")
+        cursor.execute("ALTER SEQUENCE movie_movierank_id_seq RESTART WITH 1;")
+        movies = Movie.objects.filter(
+            opening_date__lte=now_date,
+            closing_date__gt=now_date
+        )
+        for movie in movies:
+            reservation_rate = movie.reservation_rate
+            reviews = movie.review_set.all().values_list('score', flat=True)
+            review_rate = round(sum(reviews) / reviews.count(), 3) if reviews.count() != 0 else 0
+            cls.objects.create(
+                movie=movie,
+                name=movie.name,
+                grade=movie.grade,
+                reservation_rate=reservation_rate,
+                review_rate=review_rate,
+                reservation_rate_rank=0,
+                review_rate_rank=0
+            )
+
+        ranks = cls.objects.all()
+
+        reservation_ranks = ranks.order_by('-reservation_rate')
+        for idx, movie in enumerate(reservation_ranks):
+            movie.reservation_rate_rank = idx + 1
+            movie.save()
+
+        review_ranks = ranks.order_by('-review_rate')
+        for idx, movie in enumerate(review_ranks):
+            movie.review_rate_rank = idx + 1
+            movie.save()
+
+        not_open_movies = Movie.objects.filter(opening_date__gte=now_date)
+        for movie in not_open_movies:
+            cls.objects.create(
+                movie=movie,
+                name=movie.name,
+                grade=movie.grade,
+                reservation_rate=0,
+                review_rate=0,
+                reservation_rate_rank=0,
+                review_rate_rank=0
+            )

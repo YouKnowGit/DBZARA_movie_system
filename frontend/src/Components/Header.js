@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
 import SideBar from "Components/SideBar";
-import {useCookies} from "react-cookie";
+import { useCookies } from "react-cookie";
 // TODO 메뉴, 서치 클릭 -> 사이드바
 
 export default withRouter(({ location: { pathname } }) => {
@@ -63,33 +63,13 @@ export default withRouter(({ location: { pathname } }) => {
             onMouseOver={() => onHover()}
             onMouseOut={() => outHover()}
           >
-            <SLink to={{
-                pathname: "/Movies",
-                state: {
-                  showType: "boxOffice"
-                }
-              }}>
+            <SLink to={"/Movies"}>
               <LinkText>영화</LinkText>
             </SLink>
             <TabUl>
-              <TabLi to={{
-                pathname: "/Movies",
-                state: {
-                  showType: "boxOffice"
-                }
-              }} hover={hover}>예매순위</TabLi>
-              <TabLi to={{
-                pathname: "/Movies/Now-Playing",
-                state: {
-                  showType: "nowPlaying"
-                }
-              }} hover={hover}>현재상영작</TabLi>
-              <TabLi to={{
-                pathname: "/Movies/Upcoming-Release",
-                state: {
-                  showType: "notOpen"
-                }
-              }} hover={hover}>개봉예정작</TabLi>
+              <TabLi to={"/Movies"} hover={hover}>예매순위</TabLi>
+              <TabLi to={"/Movies/Review-Rating"} hover={hover}>평점순위</TabLi>
+              <TabLi to={"/Movies/Upcoming-Release"} hover={hover}>개봉예정작</TabLi>
               {/* {[
                 "예매순위",
                 "현재상영작",
@@ -162,14 +142,14 @@ export default withRouter(({ location: { pathname } }) => {
         <List>
           {
             cookies.token ? (
-                <LoginItem current={pathname === "/Login"}>
-                  <SLink to="/MyPage"><i className="fas fa-user"></i></SLink>
-                </LoginItem>
+              <LoginItem current={pathname === "/Login"}>
+                <SLink to="/MyPage"><i className="fas fa-user"></i></SLink>
+              </LoginItem>
             ) : (
                 <LoginItem current={pathname === "/Login"}>
                   <SLink to="/Login">로그인</SLink>
                 </LoginItem>
-            )
+              )
           }
 
           <LoginItem onClick={() => setSideBar(true)}>🟦</LoginItem>
