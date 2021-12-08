@@ -4,18 +4,57 @@
 <link rel="stylesheet" href="{% static 'css/calender.css' %}">
 
 {% block content %}
+<style>
+    .jaehun_flex {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .jh2{
+        margin: 0;
+        padding: 0;
+    }
+    .jh-m{
+        margin: 30px 0
+    }
+    .jh-mt{
+        margin-top: 20px;
+    }
+    .jh-mb{
+        margin-bottom:20px;
+    }
+    .jh-date {
+        margin: 5px 0 0 5px;
+    }
+</style>
+
     <div class="container-fluid h-75">
         <div class="card shadow">
             <div class="card-header py-3">
                 <p class="text-primary m-0 fw-bold">Attendanve Info</p>
             </div>
             <div class="table-responsive overflow-auto" style="height: 600px; background-color: white">
+                
+                <div class="container-fluid jh-m">
+                    <div class="row mb-3">
+                        <div class="col"><input type="date" class="jh-date"/></div>
+                        <div class="col jh2">
+                            {% include '_search_bar.html' %}
+                        </div>
+                        <div class="col"></div>
+                        <div class="col jaehun_flex">
+                            <div class="jaehun_flex">{% include '_button.html' %}</div>
+                            <div class="jaehun_flex">{% include '_modify_button.html' %}</div>
+                        </div>
+                    </div>
+                </div>
                 <table class="table table-bordered text-center">
                     <thead>
                         <tr>
                         <!-- for 으로 날짜 데이터 입력-->
                         <div class="container">
-                            <div style="height: 38px"></div>
                             <div style="display: flex; ">
                                 <div  style="width: 100px; padding-top: 6px; border : 1px solid blue; margin-right: 3px; margin-bottom: 3px; text-align: center;" >이름</div>
                                 {% for day in days_of_month %}
