@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import MuiAccordion from "@material-ui/core/Accordion";
@@ -81,7 +81,7 @@ function a11yProps(index) {
   };
 }
 
-const DiscountReservation = ({ display }) => {
+const DiscountReservation = ({ display, choice, onChoice }) => {
   const [expanded, setExpanded] = React.useState("panel1");
 
   const handleChangeAccordion = (panel) => (event, newExpanded) => {
@@ -129,7 +129,7 @@ const DiscountReservation = ({ display }) => {
             <Typography>DBZARA상품권 / DBZARA포인트</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography>상품권, 포인트 채우기</Typography>
+            <Typography>상품권, 포인트</Typography>
           </AccordionDetails>
         </Accordion>
         <Accordion
@@ -146,28 +146,6 @@ const DiscountReservation = ({ display }) => {
           </AccordionSummary>
           <AccordionDetails>
             <Typography>예매권 내역, 할인권 내역</Typography>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion
-          square
-          expanded={expanded === "panel3"}
-          onChange={handleChangeAccordion("panel3")}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel3d-content"
-            id="panel3d-header"
-          >
-            <Typography>Collapsible Group Item #3</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-              eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-              eget.
-            </Typography>
           </AccordionDetails>
         </Accordion>
       </div>
@@ -188,7 +166,18 @@ const DiscountReservation = ({ display }) => {
         <TabPanel value={value} index={0}>
           <CreditCard>
             {cardList.map((card, idx) => (
-              <p key={idx}>{card}카드</p>
+              <CardName
+                key={idx}
+                onClick={() =>
+                  onChoice((data) => ({ ...data, choices: true, card }))
+                }
+                name={card}
+                state={choice.card}
+              >
+                {console.log(card)}
+                {console.log(choice.card)}
+                {card}카드
+              </CardName>
             ))}
           </CreditCard>
         </TabPanel>
@@ -273,10 +262,13 @@ const CreditCard = styled(Payment)`
   background-color: white;
   padding: 50px;
   font-size: 16px;
-  > p {
-    margin-bottom: 10px;
-    &:hover {
-      color: red;
-    }
+`;
+
+const CardName = styled.p`
+  margin-bottom: 10px;
+  /* ${(prop) => console.log("prop", prop)} */
+  ${(prop) => (prop.name === prop.state ? "color: red;" : null)}
+  &:hover {
+    color: red;
   }
 `;
