@@ -23,6 +23,7 @@ export const dbzaraApi = {
           option: 'review'
       }
     }),
+    movie: (id) => api.get(`movie/${id}`),
   movieInfo: (id) => api.get(`movie/${id}`),
   movieVideo: (id) => api.get(`movie/${id}/videos`),
 

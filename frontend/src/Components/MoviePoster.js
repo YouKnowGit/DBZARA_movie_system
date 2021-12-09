@@ -14,7 +14,12 @@ const MoviePoster = ({ id, bgUrl, index }) => {
       <Index>{index}</Index>
       <Background>
         <Btn>
-          <SLink to={"/Reservation"}>예매</SLink>
+          <SLink to={{
+              pathname: "/Reservation",
+              state: {
+                  movie: id
+              }
+          }}>예매</SLink>
         </Btn>
         <Btn>
           <SLink to={`/MoviesInfo/Index/${id}`}>정보</SLink>

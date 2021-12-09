@@ -83,10 +83,9 @@ const AllStoreList = styled.div`
 
 
 
-const Store = (props) => {
-  console.log(props)
-
-  const [tabClick, setTabClick] = useState(0);
+const Store = ({ location }) => {
+  const index = location.state?.index || 0;
+  const [tabClick, setTabClick] = useState(index);
 
   return (
     <>
