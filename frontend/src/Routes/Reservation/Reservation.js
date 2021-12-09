@@ -301,7 +301,7 @@ const Reservation = () => {
   };
 
   // ! 현재 화면idx
-  const [display, onDisplay] = useState(4);
+  const [display, onDisplay] = useState(1);
 
   // ! 다음 페이지
   const [nextStep, setNextStep] = useState(false);
