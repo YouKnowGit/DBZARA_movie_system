@@ -33,7 +33,7 @@ class StoreListAPIView(APIView):
         return Response(self.get_store(), status=status.HTTP_200_OK)
 
     def get_store(self):
-        ticket = self.queryset.filter(category__middle_category_id=1)
+        ticket = self.queryset.filter(id__in=[1, 2])
         ticket_serializer = self.serializer_class(ticket, many=True)
 
         snack = self.queryset.filter(category_id__in=list(range(33, 36)))
