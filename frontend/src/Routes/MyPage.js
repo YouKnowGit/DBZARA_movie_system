@@ -6,11 +6,13 @@ import Registration from "./MyPageInfoDetail/Registration"
 import PreferActor from "./MyPageInfoDetail/PreferActor";
 import PreferDirector from "./MyPageInfoDetail/PreferDirector"
 import { PortraitSharp } from "@material-ui/icons";
-import { Link, Switch, Route } from "react-router-dom";
+import { Link, Switch, Route, Redirect } from "react-router-dom";
 import MyPageMyRating from "./MyPageMyRating";
 import MyPageMyMovie from "./MyPageMyMovie";
 import {UserContext} from "context";
 import {socialAPI, useToken} from "../junsu-api";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import {useCookies} from "react-cookie";
 
 const Container = styled.div`
   position: relative;
@@ -156,6 +158,7 @@ const SLink = styled(Link)`
 
 const MyPage = () => {
   const [tabClick, setTabClick] = useState(0);
+  const [cookies, setCookies] = useCookies(['token'])
 
   const [profile, setProfile] = useState({
     profile: null,
@@ -302,7 +305,18 @@ const MyPage = () => {
                 </UserArea>
               </Content>
             </Container>
-        ) : <div></div>
+        ) : (
+            cookies.token ? (<div style={{ minHeight: "82vh" }}>
+                <CircularProgress
+                    style={{
+                      position: "absolute",
+                      top: "36%",
+                      left: "50%",
+                      margin: "-150px 0 0 - 150px",
+                    }}
+                />
+              </div>) : (<Redirect to="/"/>)
+        )
       }
       </>
   );

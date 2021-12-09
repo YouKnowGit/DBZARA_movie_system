@@ -150,7 +150,7 @@ export default withRouter(({ location: { pathname } }) => {
                 );
               } else {
                 return (
-                  <TabLi to="/Upcoming-Release" hover={hover}>
+                  <TabLi to="/Movies/Upcoming-Release" hover={hover}>
                     {item}
                   </TabLi>
                 );
@@ -180,30 +180,30 @@ export default withRouter(({ location: { pathname } }) => {
               <LinkText>스토어</LinkText>
             </SLink>
 
-            {["스낵", "음료", "콤보"].map((item, idx) => (
-              <TabLi
-                to={{
-                  pathname: "/Store",
-                  state: {
-                    index: 123,
-                  },
-                }}
-                hover={hover}
-              >
-                {item}
-              </TabLi>
-            ))}
-          </Item>
-        </List>
-        <List>
-          {cookies.token ? (
-            <SLink to="/MyPage">
-              <i className="fas fa-user"></i>
-            </SLink>
-          ) : (
-              <>
-                <span style={{ fontSize: "15px" }} onClick={handleClickOpen}>
-                  로그인
+              {["스낵", "음료", "콤보"].map((item, idx) => (
+                  <TabLi
+                      to={{
+                        pathname: "/Store",
+                        state: {
+                          index: idx,
+                        },
+                      }}
+                      hover={hover}
+                  >
+                    {item}
+                  </TabLi>
+              ))}
+            </Item>
+          </List>
+          <List>
+            {cookies.token ? (
+                <SLink to="/MyPage">
+                  <i className="fas fa-user"></i>
+                </SLink>
+            ) : (
+                <>
+              <span style={{ fontSize: "15px" }} onClick={handleClickOpen}>
+                로그인
               </span>
                 <div>
                   <Dialog
@@ -249,14 +249,14 @@ export default withRouter(({ location: { pathname } }) => {
               </>
             )}
 
-          <LoginItem onClick={() => setSideBar(true)}>🟦</LoginItem>
-        </List>
-        <Side open={sideBar}>
-          <SideBar setSideBar={setSideBar} />
-          {/* {console.log("sideBar1", sideBar)} */}
-        </Side>
-      </Header>
-    </>
+            <LoginItem onClick={() => setSideBar(true)}>🟦</LoginItem>
+          </List>
+          <Side open={sideBar}>
+            <SideBar setSideBar={setSideBar} />
+            {/* {console.log("sideBar1", sideBar)} */}
+          </Side>
+        </Header>
+      </>
   );
 });
 
@@ -359,7 +359,6 @@ const LoginModal = styled.div`
 const LoginIcon = styled.div`
   display: flex;
   justify-content: space-between;
-
   img {
     margin: 10px;
   }

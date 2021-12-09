@@ -18,6 +18,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 
+
 //  calendar
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -31,7 +32,9 @@ import { UserContext } from "context";
 import { dbzaraApi } from "jaehunApi";
 
 // ! 예매page
-const Reservation = () => {
+const Reservation = ({ location }) => {
+  const propsMovie = location.state?.movie || null;
+
   // 영화선택
   const [expanded, setExpanded] = React.useState("panel1");
   const handleChange = (panel) => (event, newExpanded) => {
@@ -79,7 +82,9 @@ const Reservation = () => {
         cinemas,
         others: rests,
       }));
-      console.log(schedule);
+      if (propsMovie) {
+        await onMovieChoice(propsMovie);
+      }
     } catch {
       setSchedule((prevState) => ({
         ...prevState,
@@ -581,8 +586,6 @@ const Reservation = () => {
                   ) : (
                     <Age ageAttr={ageColor[0]}>전체</Age>
                   )}
-                  {console.log("선택 상영관", theater.choice)}
-                  {console.log("선택 항목들", scheduleChoice)}
                   <p>{scheduleChoice.movieDetail.name}</p>
                 </div>
                 <div>
