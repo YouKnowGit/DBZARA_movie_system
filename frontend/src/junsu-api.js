@@ -4,7 +4,7 @@ import {UserContext} from "./context";
 import {useCookies} from "react-cookie";
 
 
-const api = axios.create({ baseURL: "http://dbzara.kro.kr/api/v1/" });
+const api = axios.create({ baseURL: "http://dbzara.kro.kr:8000/api/v1/" });
 
 
 export const socialAPI = {

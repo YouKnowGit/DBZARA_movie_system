@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://dbzara.kro.kr/api/v1",
+  baseURL: "http://dbzara.kro.kr:8000/api/v1",
 });
 
 export const dbzaraApi = {

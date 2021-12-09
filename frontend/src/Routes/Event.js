@@ -256,7 +256,7 @@ const TabContent = (props) => {
   const [event, setEvent] = useState([]);
 
   useEffect(() => {
-    axios.get("http://dbzara.kro.kr/api/v1/event/") //api주소에서 받아오고
+    axios.get("http://dbzara.kro.kr:8000/api/v1/event/") //api주소에서 받아오고
       .then((res) => {
         console.log(res.data.results)//그러고나서 받아온 데이터들을 res라는 변수에 저장하고 그걸 useState로 저장
         setEvent(res.data.results);
