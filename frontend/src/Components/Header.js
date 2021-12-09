@@ -9,6 +9,7 @@ import GoogleLogin from "react-google-login";
 import KakaoLogin from "react-kakao-login";
 import { UserContext } from "../context";
 import { socialAPI } from "../junsu-api";
+import logo from "assets/logo.svg";
 // TODO 메뉴, 서치 클릭 -> 사이드바
 
 export default withRouter(({ location: { pathname } }) => {
@@ -88,7 +89,9 @@ export default withRouter(({ location: { pathname } }) => {
       <Header current={pathname !== "/"} scrollY={position}>
         <List>
           <Logo>
-            <SLink to="/">Logo</SLink>
+            <SLink to="/">
+              <LogoImg src={logo} />
+            </SLink>
           </Logo>
         </List>
         <List>
@@ -198,53 +201,53 @@ export default withRouter(({ location: { pathname } }) => {
               <i className="fas fa-user"></i>
             </SLink>
           ) : (
-            <>
-              <span style={{ fontSize: "15px" }} onClick={handleClickOpen}>
-                로그인
+              <>
+                <span style={{ fontSize: "15px" }} onClick={handleClickOpen}>
+                  로그인
               </span>
-              <div>
-                <Dialog
-                  onClose={handleClose}
-                  aria-labelledby="customized-dialog-title"
-                  open={open}
-                >
-                  <LoginModal>
-                    <div>
-                      <ModalHeader>간편하게 SNS 회원가입</ModalHeader>
-                      <LoginIcon>
-                        <GoogleLogin
-                          clientId={process.env.REACT_APP_GOOGLE_LOGIN_ID}
-                          // buttonText="구글로 로그인하기"
-                          onSuccess={responseGoogle}
-                          onFailure={responseGoogle}
-                          cookiePolicy={"single_host_origin"}
-                          render={(props) => (
-                            <img
-                              onClick={props.onClick}
-                              src={require("assets/google.png").default}
-                            />
-                          )}
-                        ></GoogleLogin>
-                        <KakaoLogin
-                          Label="20%"
-                          token={process.env.REACT_APP_KAKAO_LOGIN_API}
-                          onSuccess={onSuccess}
-                          onFail={onFailure}
-                          render={(props) => (
-                            <img
-                              onClick={props.onClick}
-                              src={require("assets/kakao.png").default}
-                            />
-                          )}
-                        ></KakaoLogin>
-                        <img src={require("assets/facebook.png").default} />
-                      </LoginIcon>
-                    </div>
-                  </LoginModal>
-                </Dialog>
-              </div>
-            </>
-          )}
+                <div>
+                  <Dialog
+                    onClose={handleClose}
+                    aria-labelledby="customized-dialog-title"
+                    open={open}
+                  >
+                    <LoginModal>
+                      <div>
+                        <ModalHeader>간편하게 SNS 회원가입</ModalHeader>
+                        <LoginIcon>
+                          <GoogleLogin
+                            clientId={process.env.REACT_APP_GOOGLE_LOGIN_ID}
+                            // buttonText="구글로 로그인하기"
+                            onSuccess={responseGoogle}
+                            onFailure={responseGoogle}
+                            cookiePolicy={"single_host_origin"}
+                            render={(props) => (
+                              <img
+                                onClick={props.onClick}
+                                src={require("assets/google.png").default}
+                              />
+                            )}
+                          ></GoogleLogin>
+                          <KakaoLogin
+                            Label="20%"
+                            token={process.env.REACT_APP_KAKAO_LOGIN_API}
+                            onSuccess={onSuccess}
+                            onFail={onFailure}
+                            render={(props) => (
+                              <img
+                                onClick={props.onClick}
+                                src={require("assets/kakao.png").default}
+                              />
+                            )}
+                          ></KakaoLogin>
+                          <img src={require("assets/facebook.png").default} />
+                        </LoginIcon>
+                      </div>
+                    </LoginModal>
+                  </Dialog>
+                </div>
+              </>
+            )}
 
           <LoginItem onClick={() => setSideBar(true)}>🟦</LoginItem>
         </List>
@@ -274,8 +277,8 @@ const Header = styled.header`
     props.current
       ? "RGB(38, 38, 38)"
       : props.scrollY
-      ? "RGB(38, 38, 38)"
-      : "transparent"};
+        ? "RGB(38, 38, 38)"
+        : "transparent"};
 `;
 
 const Logo = styled.div`
@@ -314,6 +317,14 @@ const SubListBg = styled.div`
 
 const SLink = styled(Link)`
   margin-bottom: 20px;
+`;
+
+const LogoImg = styled.img`
+  position: relative;
+  top: -5px;
+  left: -40px;
+  width: 200px;
+  height: 40px;
 `;
 
 const LinkText = styled.p`
